@@ -1,0 +1,18 @@
+version: '2'
+services:
+  sk1:
+    privileged: true
+    image: ubuntu:14.04.3
+    stdin_open: true
+    network_mode: host
+    tty: true
+    pid: host
+  sk2-router:
+    network_mode: container:primary
+    image: ubuntu:14.04.3
+  primary:
+    image: ubuntu:14.04.3
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.sidekicks: sk1, sk2-router

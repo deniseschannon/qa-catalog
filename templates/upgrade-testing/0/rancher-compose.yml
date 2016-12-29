@@ -1,0 +1,13 @@
+.catalog:
+  name: "Test Adding Sidekicks"
+  version: "1.0.0"
+  description: "Adding sidekicks on upgrade"
+
+version: '2'
+services:
+  sk1:
+    scale: 1
+    start_on_create: true
+  primary:
+    scale: 1
+    start_on_create: true

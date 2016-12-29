@@ -1,0 +1,17 @@
+version: '2'
+services:
+  sk1:
+    privileged: true
+    image: ubuntu:14.04.3
+    stdin_open: true
+    network_mode: host
+    tty: true
+    pid: host
+  primary:
+    image: ubuntu:14.04.3
+    stdin_open: true
+    tty: true
+    volumes_from:
+    - sk1
+    labels:
+      io.rancher.sidekicks: sk1
