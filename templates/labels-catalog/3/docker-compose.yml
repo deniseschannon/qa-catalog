@@ -1,4 +1,16 @@
-labels-catalog:
-  image: busybox
-  tty: true
-  stdin_open: true
+logagent:
+    image: dirosden/caplogagent:dev
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      KAFKA_TEMPLATE_JSON: 1
+      KAFKA_TEMPLATE_1: "time=\"{{.Time}}\" container_name=\"{{.Container.Name}}\" source=\"{{.Source}}\" data=\"{{.Data}}\""
+      KAFKA_TEMPLATE_2: "time=\"{{`{{.Time}}`}}\" container_name=\"{{`{{.Container.Name}}`}}\" source=\"{{`{{.Source}}`}}\" data=\"{{`{{.Data}}`}}\""
+      KAFKA_COMPRESSION_CODEC: snappy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.global: 'true'
